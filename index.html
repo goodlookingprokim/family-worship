@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>설날 가정예배</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FFFDF5;
+      --card: #FFFFFF;
+      --text: #2D2D2D;
+      --muted: #7A7060;
+      --accent: #B8860B;
+      --accent-dark: #8B6508;
+      --accent-light: #E6B84F;
+      --border: #F0E8DB;
+      --highlight: #FFF9ED;
+      --highlight-strong: #FFF3D6;
+      --shadow: 0 3px 16px rgba(180,160,120,0.12);
+      --radius: 14px;
+    }
+
+    html {
+      font-size: 18px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 2;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem 4rem;
+    }
+
+    /* ── Font Size Controls ── */
+    .font-controls {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      padding: 0.5rem 0;
+      background: var(--bg);
+    }
+
+    .font-btn {
+      width: 2.6rem;
+      height: 2.6rem;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      background: var(--card);
+      color: var(--accent);
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-btn:hover, .font-btn:active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      padding: 2rem 1rem 1.8rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #FFF9ED 0%, #FFF3D6 100%);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .header .cross {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--accent-dark);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+
+    .header .year-badge {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--card);
+      border: 2px solid var(--accent-light);
+      border-radius: 2rem;
+      padding: 0.25rem 1.2rem;
+      margin-top: 0.3rem;
+    }
+
+    /* ── TOC (Table of Contents) ── */
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      padding: 0.8rem;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .toc a {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0.3rem 0.7rem;
+      border-radius: 2rem;
+      border: 1.5px solid var(--accent-light);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .toc a:hover, .toc a:active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* ── Section ── */
+    .section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.6rem 1.8rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--accent-light);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--highlight-strong);
+    }
+
+    .section-title .icon { font-size: 1.15rem; }
+
+    .section-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-meta .ref {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .who {
+      font-size: 0.82rem;
+      background: var(--highlight-strong);
+      color: var(--accent-dark);
+      padding: 0.2rem 0.7rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .section p {
+      margin-top: 0.5rem;
+      text-align: justify;
+      word-break: keep-all;
+    }
+
+    .section .amen {
+      display: block;
+      text-align: right;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 0.4rem;
+      font-size: 1.05em;
+    }
+
+    /* ── Creed ── */
+    .creed { line-height: 2.1; }
+
+    /* ── Bible verse ── */
+    .bible-verse {
+      background: var(--highlight);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-top: 0.8rem;
+      font-weight: 600;
+      border-left: 4px solid var(--accent-light);
+      line-height: 2.1;
+    }
+
+    /* ── Hymn lyrics ── */
+    .hymn-lyrics { margin-top: 1rem; }
+
+    .hymn-verse {
+      background: var(--highlight);
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .hymn-verse:last-child { margin-bottom: 0; }
+
+    .verse-num {
+      display: inline-block;
+      font-weight: 900;
+      color: var(--accent);
+      min-width: 1.6em;
+      font-size: 1.1em;
+    }
+
+    .verse-lines {
+      padding-left: 0.2rem;
+      line-height: 2.2;
+      word-break: keep-all;
+      font-size: 1.05em;
+    }
+
+    .verse-repeat {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── Refrain ── */
+    .refrain {
+      background: var(--highlight-strong);
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin-top: 0.8rem;
+      font-weight: 600;
+      line-height: 2;
+    }
+
+    .refrain strong { color: var(--accent-dark); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, #FFF9ED 0%, #FFF3D6 100%);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer .cross { font-size: 1.8rem; display: block; margin-bottom: 0.3rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      html { font-size: 17px; }
+      .page { padding: 0.8rem 0.6rem 3rem; }
+      .header { padding: 1.5rem 0.8rem 1.3rem; }
+      .header h1 { font-size: 1.8rem; letter-spacing: 0.08em; }
+      .header .cross { font-size: 2.2rem; }
+      .section { padding: 1.3rem 1.1rem; border-radius: 10px; }
+      .toc { gap: 0.3rem; padding: 0.6rem; }
+      .toc a { font-size: 0.78rem; padding: 0.25rem 0.55rem; }
+    }
+
+    @media (max-width: 380px) {
+      html { font-size: 16px; }
+      .section { padding: 1.1rem 0.9rem; }
+    }
+
+    @media (min-width: 1024px) {
+      html { font-size: 20px; }
+      .page { padding: 2rem 2rem 5rem; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; }
+      .font-controls, .toc { display: none; }
+      .page { max-width: 100%; padding: 0; }
+      .section { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+      .header, .footer { background: none; border: 1px solid #ddd; }
+    }
+
+    /* ── Dark mode ── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1C1B18;
+        --card: #2A2824;
+        --text: #E8E4DC;
+        --muted: #A09882;
+        --accent: #E6B84F;
+        --accent-dark: #F0CC6E;
+        --accent-light: #8B7A3E;
+        --border: #3D3930;
+        --highlight: #33302A;
+        --highlight-strong: #3D3828;
+        --shadow: 0 3px 16px rgba(0,0,0,0.3);
+      }
+      .header, .footer {
+        background: linear-gradient(135deg, #2A2824 0%, #33302A 100%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Font Size Controls -->
+  <div class="font-controls">
+    <button class="font-btn" onclick="changeFontSize(-1)" aria-label="글자 작게">A-</button>
+    <button class="font-btn" onclick="changeFontSize(1)" aria-label="글자 크게">A+</button>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <span class="cross">&#x271E;</span>
+    <h1>설날 가정예배</h1>
+    <span class="year-badge" id="yearBadge"></span>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <a href="#s1">묵상기도</a>
+    <a href="#s2">신앙고백</a>
+    <a href="#s3">찬송</a>
+    <a href="#s4">기도</a>
+    <a href="#s5">성경봉독</a>
+    <a href="#s6">설교</a>
+    <a href="#s7">기도</a>
+    <a href="#s8">찬송</a>
+    <a href="#s9">폐회</a>
+  </nav>
+
+  <!-- 1. 묵상기도 -->
+  <article class="section" id="s1">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 묵상기도
+      <span style="flex:1"></span>
+      <span class="who">다 같이</span>
+    </div>
+    <p>
+      부모님께 효도하고, 부부간에 사랑하고, 형제간 우애를 돈독하게 하셔서 가족 간에 늘 화목하게 하옵소서.
+      하나님 중심의 가정, 예배드리는 가정, 기도하는 가정으로 하나님과 화목한 한 해, 행복한 한 해가 되게 하옵소서.
+      세상 끝 날까지 우리와 함께 하시는 존귀하신 예수님의 이름으로 기도드립니다.
+      <span class="amen">아멘.</span>
+    </p>
+  </article>
+
+  <!-- 2. 신앙고백 -->
+  <article class="section" id="s2">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 신앙고백
+      <span style="flex:1"></span>
+      <span class="who">다 같이</span>
+    </div>
+    <div class="section-meta">
+      <span class="ref">사도신경</span>
+    </div>
+    <p class="creed">
+      나는 전능하신 아버지 하나님, 천지의 창조주를 믿습니다.
+      나는 그의 유일하신 아들, 우리 주 예수 그리스도를 믿습니다.
+      그는 성령으로 잉태되어 동정녀 마리아에게서 나시고,
+      본디오 빌라도에게 고난을 받아 십자가에 못 박혀 죽으시고,
+      장사된 지 사흘만에 죽은 자 가운데서 다시 살아나셨으며,
+      하늘에 오르시어 전능하신 하나님 우편에 앉아 계시다가,
+      거기로부터 살아있는 자와 죽은 자를 심판하러 오십니다.
+      나는 성령을 믿으며, 거룩한 공교회와 성도의 교제와
+      죄를 용서 받는 것과 몸의 부활과 영생을 믿습니다.
+      <span class="amen">아멘.</span>
+    </p>
+  </article>
+
+  <!-- 3. 찬송 -->
+  <article class="section" id="s3">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 찬송
+      <span style="flex:1"></span>
+      <span class="who">다 같이</span>
+    </div>
+    <div class="section-meta">
+      <span class="ref">434장 (구 384장) &mdash; 나의 갈길 다 가도록</span>
+    </div>
+    <div class="hymn-lyrics">
+      <div class="hymn-verse">
+        <span class="verse-num">1.</span>
+        <div class="verse-lines">
+          나의 갈 길 다 가도록 예수 인도하시니<br>
+          내 주 안에 있는 긍휼 어찌 다 말하리<br>
+          믿음으로 사는 자는 하늘 위로 받겠네<br>
+          무슨 일을 만나든지 만사 형통하리라<br>
+          <span class="verse-repeat">무슨 일을 만나든지 만사 형통하리라</span>
+        </div>
+      </div>
+      <div class="hymn-verse">
+        <span class="verse-num">2.</span>
+        <div class="verse-lines">
+          나의 갈 길 다 가도록 예수 인도하시니<br>
+          어려운 일 당할 때도 족한 은혜 주시네<br>
+          나는 심히 고단하고 영혼 갈할 때에<br>
+          나의 앞에 반석에서 샘물 나게 하시네<br>
+          <span class="verse-repeat">나의 앞에 반석에서 샘물 나게 하시네</span>
+        </div>
+      </div>
+      <div class="hymn-verse">
+        <span class="verse-num">3.</span>
+        <div class="verse-lines">
+          나의 갈 길 다 가도록 예수 인도하시니<br>
+          그의 사랑 어찌 크지 말로 할 수 없도다<br>
+          성령 감화 받은 영혼 하늘나라 갈 때에<br>
+          영영 부를 나의 찬송 예수 인도하셨네<br>
+          <span class="verse-repeat">영영 부를 나의 찬송 예수 인도하셨네 아멘</span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- 4. 기도 -->
+  <article class="section" id="s4">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 기도
+      <span style="flex:1"></span>
+      <span class="who">인도자</span>
+    </div>
+    <p>
+      살아계신 하나님 아버지, <span class="dynamic-prev-year"></span> 한 해 주님께서 우리 가족을 돌보시고 인도하여 주셔서 감사드립니다.
+      가족들 가운데 어려움도 있었고 고난도 있었지만 그것이 우리를 연단하게 하여 주신 하나님께 감사드립니다.
+      돌아보건대 우리가 예수님을 믿는 자로서 세상 사람들에게 빛이 되지 못하고 살았던 것을 회개합니다.
+      이런 죄악 가운데서도 우리를 변함없이 사랑하시는 주님을 우리도 사랑하옵니다.
+      그리고 가족들 가운데 현재 어려움도 있지만 이 모든 것을 합력하여 선을 이루시는 하나님을 믿습니다.
+      이 시간 성령님께서 우리와 함께 하셔서 우리를 예수의 증인 삼아주시고
+      우리를 통하여 예수님의 향기를 드러나게 하는 <span class="dynamic-year"></span> 한 해가 되기를 기도드립니다.
+      예수님 이름으로 기도하였습니다.
+      <span class="amen">아멘.</span>
+    </p>
+  </article>
+
+  <!-- 5. 성경봉독 -->
+  <article class="section" id="s5">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 성경봉독
+      <span style="flex:1"></span>
+      <span class="who">다 같이</span>
+    </div>
+    <div class="section-meta">
+      <span class="ref">사도행전 1:8</span>
+    </div>
+    <div class="bible-verse">
+      오직 성령이 너희에게 임하시면 너희가 권능을 받고
+      예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러
+      내 증인이 되리라 하시니라.
+    </div>
+  </article>
+
+  <!-- 6. 설교 -->
+  <article class="section" id="s6">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 설교
+      <span style="flex:1"></span>
+      <span class="who">인도자</span>
+    </div>
+    <div class="section-meta">
+      <span class="ref">서로의 소망 나누기 등</span>
+    </div>
+    <p>
+      서로의 올해 소망을 나누는 시간입니다.<br>
+      어른의 말씀을 듣는 시간입니다.
+    </p>
+  </article>
+
+  <!-- 7. 기도 -->
+  <article class="section" id="s7">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 기도
+      <span style="flex:1"></span>
+      <span class="who">인도자</span>
+    </div>
+    <p>
+      사랑하는 하나님 아버지!<br><br>
+      지난 한 해 동안도 한량없는 사랑으로 돌보아 주시고
+      민족 고유의 명절인 설날 아침 사랑하는 가족이 함께 모여
+      하나님께 예배드리게 하시니 감사합니다.<br><br>
+      오늘 온 가족이 하나님께 드리는 이 예배를 통하여
+      우리가 새롭게 되어 하나님을 사랑하고,
+      이웃을 사랑하는 삶을 살아가게 하옵소서.<br><br>
+      올해에는 하나님이 우리에게 허락하신 교회와 가정을 잘 섬기고,
+      우리의 피난처가 되신 주님을 의지하여
+      믿음으로 세상에서 승리하게 하옵소서.<br><br>
+      인간의 생사화복을 주관하시는 사랑하는 예수그리스도의 이름으로 기도합니다.
+      <span class="amen">아멘.</span>
+    </p>
+  </article>
+
+  <!-- 8. 찬송 -->
+  <article class="section" id="s8">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 찬송
+      <span style="flex:1"></span>
+      <span class="who">다 같이</span>
+    </div>
+    <div class="section-meta">
+      <span class="ref">364장 &mdash; 내 주를 가까이 하게 함은</span>
+    </div>
+    <div class="hymn-lyrics">
+      <div class="hymn-verse">
+        <span class="verse-num">1.</span>
+        <div class="verse-lines">
+          내 주를 가까이 하게 함은<br>
+          십자가 짐 같은 고생이나<br>
+          내 일생 소원은 늘 찬송하면서<br>
+          주게 더 나가기 원합니다
+        </div>
+      </div>
+      <div class="hymn-verse">
+        <span class="verse-num">2.</span>
+        <div class="verse-lines">
+          내 고생하는 것 옛 야곱이<br>
+          돌 베개 배고 잠 갈습니다<br>
+          꿈에도 소원이 늘 찬송하면서<br>
+          주게 더 나가기 원합니다
+        </div>
+      </div>
+      <div class="hymn-verse">
+        <span class="verse-num">3.</span>
+        <div class="verse-lines">
+          천성에 가는 길 생명 길이<br>
+          되나니 은혜로다<br>
+          천사 날 부르니 늘 찬송하면서<br>
+          주게 더 나가기 원합니다
+        </div>
+      </div>
+      <div class="hymn-verse">
+        <span class="verse-num">4.</span>
+        <div class="verse-lines">
+          야곱이 잠 깨어 일어난 후<br>
+          돌 단을 쌓은 것 본 받아서<br>
+          숨 질 때 되도록 늘 찬송하면서<br>
+          주게 더 나가기 원합니다 아멘
+        </div>
+      </div>
+    </div>
+    <div class="refrain">
+      <strong>&lt;후렴&gt;</strong> 세월 지나가도록 의지할 것 뿐일세 아무 일을 만나도 예수 의지합니다.
+    </div>
+  </article>
+
+  <!-- 9. 폐회 -->
+  <article class="section" id="s9">
+    <div class="section-title">
+      <span class="icon">&#x271E;</span> 폐회
+      <span style="flex:1"></span>
+      <span class="who">다 같이</span>
+    </div>
+    <div class="section-meta">
+      <span class="ref">주기도문</span>
+    </div>
+    <p>
+      하늘에 계신 우리 아버지여, 이름이 거룩히 여김을 받으시오며
+      나라가 임하시오며 뜻이 하늘에서 이루어진 것 같이 땅에서도 이루어지이다.
+      오늘 우리에게 일용할 양식을 주시옵고
+      우리가 우리에게 죄 지은 자를 사하여 준 것 같이 우리 죄를 사하여 주시옵고
+      우리를 시험에 들게 하지 마시옵고 다만 악에서 구하시옵소서.
+      나라와 권세와 영광이 아버지께 영원히 있사옵나이다.
+      <span class="amen">아멘.</span>
+    </p>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="cross">&#x271E;</div>
+    <p>하나님의 은혜와 평강이 온 가정에 함께 하시기를 기도합니다.</p>
+  </footer>
+
+</div>
+
+<script>
+  // ── 연도 자동 계산 ──
+  const now = new Date();
+  const year = now.getFullYear();
+  const prevYear = year - 1;
+
+  document.getElementById('yearBadge').textContent = year + '년 설날';
+  document.querySelectorAll('.dynamic-year').forEach(el => el.textContent = year + '년');
+  document.querySelectorAll('.dynamic-prev-year').forEach(el => el.textContent = prevYear + '년');
+
+  // ── 글자 크기 조절 ──
+  let fontLevel = 0;
+  const MIN_LEVEL = -2;
+  const MAX_LEVEL = 4;
+
+  function changeFontSize(dir) {
+    const next = fontLevel + dir;
+    if (next < MIN_LEVEL || next > MAX_LEVEL) return;
+    fontLevel = next;
+    const base = window.innerWidth >= 1024 ? 20 : window.innerWidth >= 600 ? 18 : window.innerWidth >= 380 ? 17 : 16;
+    document.documentElement.style.fontSize = (base + fontLevel * 2) + 'px';
+  }
+</script>
+
+</body>
+</html>
