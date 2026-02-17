@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>설날 가정예배</title>
+  <title>가정예배 - 설날 · 한가위</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -116,6 +116,68 @@
       border-radius: 2rem;
       padding: 0.25rem 1.2rem;
       margin-top: 0.3rem;
+    }
+
+    /* ── Home Service Selection ── */
+    .service-select {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .service-btn {
+      padding: 1.8rem 2rem;
+      border: 3px solid var(--accent);
+      border-radius: var(--radius);
+      background: var(--card);
+      color: var(--accent-dark);
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: var(--shadow);
+      min-width: 13rem;
+      text-align: center;
+    }
+
+    .service-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.03);
+    }
+
+    .service-btn .emoji {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Back Button ── */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.4rem 1rem;
+      border: 2px solid var(--accent-light);
+      border-radius: 2rem;
+      background: var(--card);
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .back-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
     }
 
     /* ── TOC (Table of Contents) ── */
@@ -259,17 +321,35 @@
       font-style: italic;
     }
 
-    /* ── Refrain ── */
-    .refrain {
-      background: var(--highlight-strong);
+    /* ── Sermon ── */
+    .sermon-intro {
+      margin-top: 0.5rem;
+      text-align: justify;
+      word-break: keep-all;
+    }
+
+    .sermon-point {
+      background: var(--highlight);
       border-radius: 10px;
       padding: 1rem 1.3rem;
       margin-top: 0.8rem;
-      font-weight: 600;
       line-height: 2;
     }
 
-    .refrain strong { color: var(--accent-dark); }
+    .sermon-point strong {
+      color: var(--accent-dark);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .sermon-closing {
+      margin-top: 0.8rem;
+      text-align: center;
+      font-weight: 700;
+      color: var(--accent-dark);
+      font-style: italic;
+    }
 
     /* ── Footer ── */
     .footer {
@@ -284,6 +364,10 @@
 
     .footer .cross { font-size: 1.8rem; display: block; margin-bottom: 0.3rem; }
 
+    /* ── View Toggle ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
     /* ── Responsive ── */
     @media (max-width: 600px) {
       html { font-size: 17px; }
@@ -294,6 +378,8 @@
       .section { padding: 1.3rem 1.1rem; border-radius: 10px; }
       .toc { gap: 0.3rem; padding: 0.6rem; }
       .toc a { font-size: 0.78rem; padding: 0.25rem 0.55rem; }
+      .service-btn { min-width: 10rem; padding: 1.3rem 1.5rem; font-size: 1rem; }
+      .service-btn .emoji { font-size: 2rem; }
     }
 
     @media (max-width: 380px) {
@@ -309,10 +395,12 @@
     /* ── Print ── */
     @media print {
       body { background: #fff; }
-      .font-controls, .toc { display: none; }
+      .font-controls, .toc, .back-btn { display: none; }
       .page { max-width: 100%; padding: 0; }
       .section { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
       .header, .footer { background: none; border: 1px solid #ddd; }
+      .view { display: block !important; }
+      .view[id="view-home"] { display: none !important; }
     }
 
     /* ── Dark mode ── */
@@ -346,264 +434,558 @@
     <button class="font-btn" onclick="changeFontSize(1)" aria-label="글자 크게">A+</button>
   </div>
 
-  <!-- Header -->
-  <header class="header">
-    <span class="cross">&#x271E;</span>
-    <h1>설날 가정예배</h1>
-    <span class="year-badge" id="yearBadge"></span>
-  </header>
+  <!-- ============================================ -->
+  <!-- HOME VIEW                                    -->
+  <!-- ============================================ -->
+  <div class="view active" id="view-home">
+    <header class="header">
+      <span class="cross">&#x271E;</span>
+      <h1>가정예배</h1>
+      <span class="year-badge" id="yearHome"></span>
+    </header>
+    <div class="service-select">
+      <button class="service-btn" onclick="showService('seol')">
+        <span class="emoji">&#x1F338;</span>설날 가정예배
+      </button>
+      <button class="service-btn" onclick="showService('chuseok')">
+        <span class="emoji">&#x1F33E;</span>한가위 가정예배
+      </button>
+    </div>
+  </div>
 
-  <!-- TOC -->
-  <nav class="toc">
-    <a href="#s1">묵상기도</a>
-    <a href="#s2">신앙고백</a>
-    <a href="#s3">찬송</a>
-    <a href="#s4">기도</a>
-    <a href="#s5">성경봉독</a>
-    <a href="#s6">설교</a>
-    <a href="#s7">기도</a>
-    <a href="#s8">찬송</a>
-    <a href="#s9">폐회</a>
-  </nav>
+  <!-- ============================================ -->
+  <!-- 설날 가정예배                                 -->
+  <!-- ============================================ -->
+  <div class="view" id="view-seol">
 
-  <!-- 1. 묵상기도 -->
-  <article class="section" id="s1">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 묵상기도
-      <span style="flex:1"></span>
-      <span class="who">다 같이</span>
-    </div>
-    <p>
-      부모님께 효도하고, 부부간에 사랑하고, 형제간 우애를 돈독하게 하셔서 가족 간에 늘 화목하게 하옵소서.
-      하나님 중심의 가정, 예배드리는 가정, 기도하는 가정으로 하나님과 화목한 한 해, 행복한 한 해가 되게 하옵소서.
-      세상 끝 날까지 우리와 함께 하시는 존귀하신 예수님의 이름으로 기도드립니다.
-      <span class="amen">아멘.</span>
-    </p>
-  </article>
+    <button class="back-btn" onclick="goHome()">&larr; 돌아가기</button>
 
-  <!-- 2. 신앙고백 -->
-  <article class="section" id="s2">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 신앙고백
-      <span style="flex:1"></span>
-      <span class="who">다 같이</span>
-    </div>
-    <div class="section-meta">
-      <span class="ref">사도신경</span>
-    </div>
-    <p class="creed">
-      나는 전능하신 아버지 하나님, 천지의 창조주를 믿습니다.
-      나는 그의 유일하신 아들, 우리 주 예수 그리스도를 믿습니다.
-      그는 성령으로 잉태되어 동정녀 마리아에게서 나시고,
-      본디오 빌라도에게 고난을 받아 십자가에 못 박혀 죽으시고,
-      장사된 지 사흘만에 죽은 자 가운데서 다시 살아나셨으며,
-      하늘에 오르시어 전능하신 하나님 우편에 앉아 계시다가,
-      거기로부터 살아있는 자와 죽은 자를 심판하러 오십니다.
-      나는 성령을 믿으며, 거룩한 공교회와 성도의 교제와
-      죄를 용서 받는 것과 몸의 부활과 영생을 믿습니다.
-      <span class="amen">아멘.</span>
-    </p>
-  </article>
+    <header class="header">
+      <span class="cross">&#x271E;</span>
+      <h1>설날 가정예배</h1>
+      <span class="year-badge dynamic-seol-year"></span>
+    </header>
 
-  <!-- 3. 찬송 -->
-  <article class="section" id="s3">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 찬송
-      <span style="flex:1"></span>
-      <span class="who">다 같이</span>
-    </div>
-    <div class="section-meta">
-      <span class="ref">434장 (구 384장) &mdash; 나의 갈길 다 가도록</span>
-    </div>
-    <div class="hymn-lyrics">
-      <div class="hymn-verse">
-        <span class="verse-num">1.</span>
-        <div class="verse-lines">
-          나의 갈 길 다 가도록 예수 인도하시니<br>
-          내 주 안에 있는 긍휼 어찌 의심하리요<br>
-          믿음으로 사는 자는 하늘 위로 받겠네<br>
-          무슨 일을 만나든지 만사 형통하리라<br>
-          <span class="verse-repeat">무슨 일을 만나든지 만사 형통하리라</span>
+    <nav class="toc">
+      <a href="#seol-1">묵상기도</a>
+      <a href="#seol-2">신앙고백</a>
+      <a href="#seol-3">찬송</a>
+      <a href="#seol-4">기도</a>
+      <a href="#seol-5">성경봉독</a>
+      <a href="#seol-6">설교</a>
+      <a href="#seol-7">기도</a>
+      <a href="#seol-8">찬송</a>
+      <a href="#seol-9">폐회</a>
+    </nav>
+
+    <!-- 1. 묵상기도 -->
+    <article class="section" id="seol-1">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 묵상기도
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <p>
+        부모님께 효도하고, 부부간에 사랑하고, 형제간 우애를 돈독하게 하셔서 가족 간에 늘 화목하게 하옵소서.
+        하나님 중심의 가정, 예배드리는 가정, 기도하는 가정으로 하나님과 화목한 한 해, 행복한 한 해가 되게 하옵소서.
+        세상 끝 날까지 우리와 함께 하시는 존귀하신 예수님의 이름으로 기도드립니다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
+
+    <!-- 2. 신앙고백 -->
+    <article class="section" id="seol-2">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 신앙고백
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">사도신경</span>
+      </div>
+      <p class="creed">
+        나는 전능하신 아버지 하나님, 천지의 창조주를 믿습니다.
+        나는 그의 유일하신 아들, 우리 주 예수 그리스도를 믿습니다.
+        그는 성령으로 잉태되어 동정녀 마리아에게서 나시고,
+        본디오 빌라도에게 고난을 받아 십자가에 못 박혀 죽으시고,
+        장사된 지 사흘 만에 죽은 자 가운데서 다시 살아나셨으며,
+        하늘에 오르시어 전능하신 하나님 우편에 앉아 계시다가,
+        거기로부터 살아 있는 자와 죽은 자를 심판하러 오십니다.
+        나는 성령을 믿으며, 거룩한 공교회와 성도의 교제와
+        죄를 용서받는 것과 몸의 부활과 영생을 믿습니다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
+
+    <!-- 3. 찬송 -->
+    <article class="section" id="seol-3">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 찬송
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">434장 (새 384장) &mdash; 나의 갈길 다 가도록</span>
+      </div>
+      <div class="hymn-lyrics">
+        <div class="hymn-verse">
+          <span class="verse-num">1.</span>
+          <div class="verse-lines">
+            나의 갈 길 다 가도록 예수 인도하시니<br>
+            내 주 안에 있는 긍휼 어찌 의심하리요<br>
+            믿음으로 사는 자는 하늘 위로 받겠네<br>
+            무슨 일을 만나든지 만사 형통하리라<br>
+            <span class="verse-repeat">무슨 일을 만나든지 만사 형통하리라</span>
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">2.</span>
+          <div class="verse-lines">
+            나의 갈 길 다 가도록 예수 인도하시니<br>
+            어려운 일 당한 때도 족한 은혜 주시네<br>
+            나는 심히 고단하고 영혼 매우 갈하나<br>
+            나의 앞에 반석에서 샘물 나게 하시네<br>
+            <span class="verse-repeat">나의 앞에 반석에서 샘물 나게 하시네</span>
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">3.</span>
+          <div class="verse-lines">
+            나의 갈 길 다 가도록 예수 인도하시니<br>
+            그의 사랑 어찌 큰지 말로 할 수 없도다<br>
+            성령 감화 받은 영혼 하늘나라 갈 때에<br>
+            영영 부를 나의 찬송 예수 인도하셨네<br>
+            <span class="verse-repeat">영영 부를 나의 찬송 예수 인도하셨네 아멘</span>
+          </div>
         </div>
       </div>
-      <div class="hymn-verse">
-        <span class="verse-num">2.</span>
-        <div class="verse-lines">
-          나의 갈 길 다 가도록 예수 인도하시니<br>
-          어려운 일 당한 때도 족한 은혜 주시네<br>
-          나는 심히 고단하고 영혼 매우 갈하나<br>
-          나의 앞에 반석에서 샘물 나게 하시네<br>
-          <span class="verse-repeat">나의 앞에 반석에서 샘물 나게 하시네</span>
+    </article>
+
+    <!-- 4. 기도 -->
+    <article class="section" id="seol-4">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 기도
+        <span style="flex:1"></span>
+        <span class="who">인도자</span>
+      </div>
+      <p>
+        살아계신 하나님 아버지, <span class="dynamic-prev-year"></span> 한 해 주님께서 우리 가족을 돌보시고 인도하여 주셔서 감사드립니다.
+        가족들 가운데 어려움도 있었고 고난도 있었지만 그것이 우리를 연단하게 하여 주신 하나님께 감사드립니다.
+        돌아보건대 우리가 예수님을 믿는 자로서 세상 사람들에게 빛이 되지 못하고 살았던 것을 회개합니다.
+        이런 죄악 가운데서도 우리를 변함없이 사랑하시는 주님을 우리도 사랑하옵니다.
+        그리고 가족들 가운데 현재 어려움도 있지만 이 모든 것을 합력하여 선을 이루시는 하나님을 믿습니다.
+        이 시간 성령님께서 우리와 함께 하셔서 우리를 예수의 증인 삼아주시고
+        우리를 통하여 예수님의 향기를 드러나게 하는 <span class="dynamic-year"></span> 한 해가 되기를 기도드립니다.
+        예수님 이름으로 기도하였습니다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
+
+    <!-- 5. 성경봉독 -->
+    <article class="section" id="seol-5">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 성경봉독
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">사도행전 1:8</span>
+      </div>
+      <div class="bible-verse">
+        오직 성령이 너희에게 임하시면 너희가 권능을 받고
+        예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러
+        내 증인이 되리라 하시니라.
+      </div>
+    </article>
+
+    <!-- 6. 설교 -->
+    <article class="section" id="seol-6">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 설교
+        <span style="flex:1"></span>
+        <span class="who">인도자</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">서로의 소망 나누기</span>
+      </div>
+      <p>
+        서로의 올해 소망을 나누는 시간입니다.<br>
+        어른의 말씀을 듣는 시간입니다.
+      </p>
+    </article>
+
+    <!-- 7. 기도 -->
+    <article class="section" id="seol-7">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 기도
+        <span style="flex:1"></span>
+        <span class="who">인도자</span>
+      </div>
+      <p>
+        사랑하는 하나님 아버지!<br><br>
+        지난 한 해 동안도 한량없는 사랑으로 돌보아 주시고
+        민족 고유의 명절인 설날 아침 사랑하는 가족이 함께 모여
+        하나님께 예배드리게 하시니 감사합니다.<br><br>
+        오늘 온 가족이 하나님께 드리는 이 예배를 통하여
+        우리가 새롭게 되어 하나님을 사랑하고,
+        이웃을 사랑하는 삶을 살아가게 하옵소서.<br><br>
+        올해에는 하나님이 우리에게 허락하신 교회와 가정을 잘 섬기고,
+        우리의 피난처가 되신 주님을 의지하여
+        믿음으로 세상에서 승리하게 하옵소서.<br><br>
+        인간의 생사화복을 주관하시는 사랑하는 예수 그리스도의 이름으로 기도합니다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
+
+    <!-- 8. 찬송 -->
+    <article class="section" id="seol-8">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 찬송
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">364장 (새 338장) &mdash; 내 주를 가까이 하게 함은</span>
+      </div>
+      <div class="hymn-lyrics">
+        <div class="hymn-verse">
+          <span class="verse-num">1.</span>
+          <div class="verse-lines">
+            내 주를 가까이 하게 함은<br>
+            십자가 짐 같은 고생이나<br>
+            내 일생 소원은 늘 찬송하면서<br>
+            주께 더 나가기 원합니다
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">2.</span>
+          <div class="verse-lines">
+            내 고생하는 것 옛 야곱이<br>
+            돌베개 베고 잠 같습니다<br>
+            꿈에도 소원이 늘 찬송하면서<br>
+            주께 더 나가기 원합니다
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">3.</span>
+          <div class="verse-lines">
+            천성에 가는 길 험하여도<br>
+            생명 길 되나니 은혜로다<br>
+            천사 날 부르니 늘 찬송하면서<br>
+            주께 더 나가기 원합니다
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">4.</span>
+          <div class="verse-lines">
+            야곱이 잠 깨어 일어난 후<br>
+            돌단을 쌓은 것 본 받아서<br>
+            숨 질 때 되도록 늘 찬송하면서<br>
+            주께 더 나가기 원합니다 아멘
+          </div>
         </div>
       </div>
-      <div class="hymn-verse">
-        <span class="verse-num">3.</span>
-        <div class="verse-lines">
-          나의 갈 길 다 가도록 예수 인도하시니<br>
-          그의 사랑 어찌 큰지 말로 할 수 없도다<br>
-          성령 감화 받은 영혼 하늘나라 갈 때에<br>
-          영영 부를 나의 찬송 예수 인도하셨네<br>
-          <span class="verse-repeat">영영 부를 나의 찬송 예수 인도하셨네 아멘</span>
+    </article>
+
+    <!-- 9. 폐회 -->
+    <article class="section" id="seol-9">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 폐회
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">주기도문</span>
+      </div>
+      <p>
+        하늘에 계신 우리 아버지여, 이름이 거룩히 여김을 받으시오며
+        나라가 임하시오며 뜻이 하늘에서 이루어진 것 같이 땅에서도 이루어지이다.
+        오늘 우리에게 일용할 양식을 주시옵고
+        우리가 우리에게 죄 지은 자를 사하여 준 것 같이 우리 죄를 사하여 주시옵고
+        우리를 시험에 들게 하지 마시옵고 다만 악에서 구하시옵소서.
+        나라와 권세와 영광이 아버지께 영원히 있사옵나이다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
+
+    <footer class="footer">
+      <div class="cross">&#x271E;</div>
+      <p>하나님의 은혜와 평강이 온 가정에 함께 하시기를 기도합니다.</p>
+    </footer>
+
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 한가위 가정예배                               -->
+  <!-- ============================================ -->
+  <div class="view" id="view-chuseok">
+
+    <button class="back-btn" onclick="goHome()">&larr; 돌아가기</button>
+
+    <header class="header">
+      <span class="cross">&#x271E;</span>
+      <h1>한가위 가정예배</h1>
+      <span class="year-badge dynamic-chuseok-year"></span>
+    </header>
+
+    <nav class="toc">
+      <a href="#chk-1">묵상기도</a>
+      <a href="#chk-2">신앙고백</a>
+      <a href="#chk-3">찬송</a>
+      <a href="#chk-4">기도</a>
+      <a href="#chk-5">성경봉독</a>
+      <a href="#chk-6">설교</a>
+      <a href="#chk-7">기도</a>
+      <a href="#chk-8">찬송</a>
+      <a href="#chk-9">폐회</a>
+    </nav>
+
+    <!-- 1. 묵상기도 -->
+    <article class="section" id="chk-1">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 묵상기도
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">시편 103:1~2</span>
+      </div>
+      <div class="bible-verse">
+        "내 영혼아 여호와를 송축하라
+        내 속에 있는 것들아 다 그의 거룩한 이름을 송축하라
+        내 영혼아 여호와를 송축하며
+        그의 모든 은택을 잊지 말지어다."
+      </div>
+    </article>
+
+    <!-- 2. 신앙고백 -->
+    <article class="section" id="chk-2">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 신앙고백
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">사도신경</span>
+      </div>
+      <p class="creed">
+        나는 전능하신 아버지 하나님, 천지의 창조주를 믿습니다.
+        나는 그의 유일하신 아들, 우리 주 예수 그리스도를 믿습니다.
+        그는 성령으로 잉태되어 동정녀 마리아에게서 나시고,
+        본디오 빌라도에게 고난을 받아 십자가에 못 박혀 죽으시고,
+        장사된 지 사흘 만에 죽은 자 가운데서 다시 살아나셨으며,
+        하늘에 오르시어 전능하신 하나님 우편에 앉아 계시다가,
+        거기로부터 살아 있는 자와 죽은 자를 심판하러 오십니다.
+        나는 성령을 믿으며, 거룩한 공교회와 성도의 교제와
+        죄를 용서받는 것과 몸의 부활과 영생을 믿습니다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
+
+    <!-- 3. 찬송 -->
+    <article class="section" id="chk-3">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 찬송
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">434장 (새 384장) &mdash; 나의 갈길 다 가도록</span>
+      </div>
+      <div class="hymn-lyrics">
+        <div class="hymn-verse">
+          <span class="verse-num">1.</span>
+          <div class="verse-lines">
+            나의 갈 길 다 가도록 예수 인도하시니<br>
+            내 주 안에 있는 긍휼 어찌 의심하리요<br>
+            믿음으로 사는 자는 하늘 위로 받겠네<br>
+            무슨 일을 만나든지 만사 형통하리라<br>
+            <span class="verse-repeat">무슨 일을 만나든지 만사 형통하리라</span>
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">2.</span>
+          <div class="verse-lines">
+            나의 갈 길 다 가도록 예수 인도하시니<br>
+            어려운 일 당한 때도 족한 은혜 주시네<br>
+            나는 심히 고단하고 영혼 매우 갈하나<br>
+            나의 앞에 반석에서 샘물 나게 하시네<br>
+            <span class="verse-repeat">나의 앞에 반석에서 샘물 나게 하시네</span>
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">3.</span>
+          <div class="verse-lines">
+            나의 갈 길 다 가도록 예수 인도하시니<br>
+            그의 사랑 어찌 큰지 말로 할 수 없도다<br>
+            성령 감화 받은 영혼 하늘나라 갈 때에<br>
+            영영 부를 나의 찬송 예수 인도하셨네<br>
+            <span class="verse-repeat">영영 부를 나의 찬송 예수 인도하셨네 아멘</span>
+          </div>
         </div>
       </div>
-    </div>
-  </article>
+    </article>
 
-  <!-- 4. 기도 -->
-  <article class="section" id="s4">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 기도
-      <span style="flex:1"></span>
-      <span class="who">인도자</span>
-    </div>
-    <p>
-      살아계신 하나님 아버지, <span class="dynamic-prev-year"></span> 한 해 주님께서 우리 가족을 돌보시고 인도하여 주셔서 감사드립니다.
-      가족들 가운데 어려움도 있었고 고난도 있었지만 그것이 우리를 연단하게 하여 주신 하나님께 감사드립니다.
-      돌아보건대 우리가 예수님을 믿는 자로서 세상 사람들에게 빛이 되지 못하고 살았던 것을 회개합니다.
-      이런 죄악 가운데서도 우리를 변함없이 사랑하시는 주님을 우리도 사랑하옵니다.
-      그리고 가족들 가운데 현재 어려움도 있지만 이 모든 것을 합력하여 선을 이루시는 하나님을 믿습니다.
-      이 시간 성령님께서 우리와 함께 하셔서 우리를 예수의 증인 삼아주시고
-      우리를 통하여 예수님의 향기를 드러나게 하는 <span class="dynamic-year"></span> 한 해가 되기를 기도드립니다.
-      예수님 이름으로 기도하였습니다.
-      <span class="amen">아멘.</span>
-    </p>
-  </article>
+    <!-- 4. 기도 -->
+    <article class="section" id="chk-4">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 기도
+        <span style="flex:1"></span>
+        <span class="who">가족 중에서</span>
+      </div>
+      <p>
+        가족 중 한 분이 대표로 감사와 간구의 기도를 드립니다.
+      </p>
+    </article>
 
-  <!-- 5. 성경봉독 -->
-  <article class="section" id="s5">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 성경봉독
-      <span style="flex:1"></span>
-      <span class="who">다 같이</span>
-    </div>
-    <div class="section-meta">
-      <span class="ref">사도행전 1:8</span>
-    </div>
-    <div class="bible-verse">
-      오직 성령이 너희에게 임하시면 너희가 권능을 받고
-      예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러
-      내 증인이 되리라 하시니라.
-    </div>
-  </article>
+    <!-- 5. 성경봉독 -->
+    <article class="section" id="chk-5">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 성경봉독
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">시편 144:12~15</span>
+      </div>
+      <div class="bible-verse">
+        우리 아들들은 어리다가 장성한 나무들과 같으며
+        우리 딸들은 궁전의 양식대로 아름답게 다듬은 모퉁잇돌들과 같으며<br>
+        우리의 곳간에는 백곡이 가득하며
+        우리의 양은 들에서 천천과 만만으로 번성하며<br>
+        우리 수소는 무겁게 실었으며
+        또 우리를 침노하는 일이나 우리가 나아가 막는 일이 없으며
+        우리 거리에는 슬피 부르짖음이 없을진대<br>
+        <strong>이러한 백성은 복이 있나니
+        여호와를 자기 하나님으로 삼는 백성은 복이 있도다.</strong>
+      </div>
+    </article>
 
-  <!-- 6. 설교 -->
-  <article class="section" id="s6">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 설교
-      <span style="flex:1"></span>
-      <span class="who">인도자</span>
-    </div>
-    <div class="section-meta">
-      <span class="ref">서로의 소망 나누기 등</span>
-    </div>
-    <p>
-      서로의 올해 소망을 나누는 시간입니다.<br>
-      어른의 말씀을 듣는 시간입니다.
-    </p>
-  </article>
+    <!-- 6. 설교 -->
+    <article class="section" id="chk-6">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 설교
+        <span style="flex:1"></span>
+        <span class="who">인도자</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">감사하는 사람</span>
+      </div>
+      <p class="sermon-intro">
+        가을은 연초부터 땀을 흘리며 수고했던 일에 대해서 열매를 거두는 기쁨과 감사의 계절입니다.
+        이 풍성한 계절, 추석 명절에 온 가족이 함께 모여 예배드리게 되어 감사드립니다.
+        이 뜻 깊은 시간에 하나님의 말씀을 보면서 하나님께 감사드리고 가족들이 서로 격려하는 따뜻한 시간이 됩시다.<br><br>
+        오늘 읽은 말씀처럼 우리 모든 가족들은 3가지에 감사할 줄 아는 사람이 됩시다.
+      </p>
+      <div class="sermon-point">
+        <strong>1. 우리에게 주신 건강을 인하여 감사합시다 (12절).</strong>
+        가족들이 한 해 동안 세상에서 건강하게 생활하다 이렇게 만나서 얼굴을 보게 되니 얼마나 기쁜지 모르겠습니다.
+        오늘 말씀 12절에도 있는 것처럼 우리 자녀들이, 아들과 딸들이 건강하게 무럭무럭 자라는 것을 보면서 하나님께 감사하지 않을 수 없습니다.
+        우리 가족 모두 더욱 건강하기를 바랍니다.
+        건강할 때 더욱 최선을 다하여 일할 수 있습니다.
+        그리고 우리 가족 가운데 나쁜 일과 무익한 일에 헛되이 건강을 소진하는 일이 없기를 바랍니다.
+      </div>
+      <div class="sermon-point">
+        <strong>2. 우리에게 주신 물질을 인하여 감사합시다 (13~14절).</strong>
+        옛날에는 극심한 가난으로 인해 끼니를 때우는 것조차도 힘에 겨웠던 보릿고개가 있었습니다.
+        그때에 비하면 오늘날 우리가 사는 것은 얼마나 부유한 것인지 말로 할 수가 없습니다.
+        가족들을 보면 더 잘 사는 사람도 있고 아직도 경제적으로 어려움이 있는 사람도 있습니다.
+        그러나 그것을 서로 비교하면서 교만하거나 너무 마음 상하지 않기를 바랍니다.
+        있는 것을 족한 줄로 아는 것도 세상을 사는 큰 지혜이기 때문입니다.
+      </div>
+      <div class="sermon-point">
+        <strong>3. 우리를 하나님의 백성 삼으심을 감사합시다 (15절).</strong>
+        세상의 모든 것을 다 가졌다고 해도 우리의 인생은 우리 마음대로 되는 것이 아닙니다.
+        하나님은 세상의 모든 인생의 생사화복을 주관하시는 분이십니다.
+        우리가 이렇게 행복을 누리고 사는 것은 우리의 노력과 열심도 있지만, 그 배후에 우리의 삶을 인도하시는 하나님의 크신 사랑과 보살핌이 있었기 때문입니다.
+        이것을 늘 잊지 않고 감사하며 살아갑시다.
+        하나님께서 우리 가족을 하나님의 백성 삼아주시고 지금까지 인도하신 것에 감사하고, 앞으로도 형통의 길로 인도하실 하나님을 신뢰하며 나아갑시다.
+      </div>
+      <p class="sermon-closing">
+        이러한 백성은 복이 있나니 여호와를 자기 하나님으로 삼는 백성은 복이 있도다. (시편 144:15)
+      </p>
+    </article>
 
-  <!-- 7. 기도 -->
-  <article class="section" id="s7">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 기도
-      <span style="flex:1"></span>
-      <span class="who">인도자</span>
-    </div>
-    <p>
-      사랑하는 하나님 아버지!<br><br>
-      지난 한 해 동안도 한량없는 사랑으로 돌보아 주시고
-      민족 고유의 명절인 설날 아침 사랑하는 가족이 함께 모여
-      하나님께 예배드리게 하시니 감사합니다.<br><br>
-      오늘 온 가족이 하나님께 드리는 이 예배를 통하여
-      우리가 새롭게 되어 하나님을 사랑하고,
-      이웃을 사랑하는 삶을 살아가게 하옵소서.<br><br>
-      올해에는 하나님이 우리에게 허락하신 교회와 가정을 잘 섬기고,
-      우리의 피난처가 되신 주님을 의지하여
-      믿음으로 세상에서 승리하게 하옵소서.<br><br>
-      인간의 생사화복을 주관하시는 사랑하는 예수그리스도의 이름으로 기도합니다.
-      <span class="amen">아멘.</span>
-    </p>
-  </article>
+    <!-- 7. 기도 -->
+    <article class="section" id="chk-7">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 기도
+        <span style="flex:1"></span>
+        <span class="who">인도자</span>
+      </div>
+      <p>
+        인도자가 감사와 중보의 기도를 드립니다.
+      </p>
+    </article>
 
-  <!-- 8. 찬송 -->
-  <article class="section" id="s8">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 찬송
-      <span style="flex:1"></span>
-      <span class="who">다 같이</span>
-    </div>
-    <div class="section-meta">
-      <span class="ref">364장 &mdash; 내 주를 가까이 하게 함은</span>
-    </div>
-    <div class="hymn-lyrics">
-      <div class="hymn-verse">
-        <span class="verse-num">1.</span>
-        <div class="verse-lines">
-          내 주를 가까이 하게 함은<br>
-          십자가 짐 같은 고생이나<br>
-          내 일생 소원은 늘 찬송하면서<br>
-          주께 더 나가기 원합니다
+    <!-- 8. 찬송 -->
+    <article class="section" id="chk-8">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 찬송
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">78장 (새 478장) &mdash; 참 아름다워라</span>
+      </div>
+      <div class="hymn-lyrics">
+        <div class="hymn-verse">
+          <span class="verse-num">1.</span>
+          <div class="verse-lines">
+            참 아름다워라 주님의 세계는<br>
+            저 솔로몬의 옷보다 더 고운 백합화<br>
+            주 찬송하는 듯 저 맑은 새소리<br>
+            내 아버지의 지으신 그 솜씨 깊도다
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">2.</span>
+          <div class="verse-lines">
+            참 아름다워라 주님의 세계는<br>
+            저 아침해와 저녁놀 밤하늘 빛난 별<br>
+            망망한 바다와 늘 푸른 봉우리<br>
+            다 주하나님 영광을 잘 드러내도다
+          </div>
+        </div>
+        <div class="hymn-verse">
+          <span class="verse-num">3.</span>
+          <div class="verse-lines">
+            참 아름다워라 주님의 세계는<br>
+            저 산에 부는 바람과 잔잔한 시냇물<br>
+            그 소리 가운데 주 음성 들리니<br>
+            주 하나님의 큰 뜻을 나 알듯하도다 아멘
+          </div>
         </div>
       </div>
-      <div class="hymn-verse">
-        <span class="verse-num">2.</span>
-        <div class="verse-lines">
-          내 고생하는 것 옛 야곱이<br>
-          돌베개 베고 잠 같습니다<br>
-          꿈에도 소원이 늘 찬송하면서<br>
-          주께 더 나가기 원합니다
-        </div>
-      </div>
-      <div class="hymn-verse">
-        <span class="verse-num">3.</span>
-        <div class="verse-lines">
-          천성에 가는 길 험하여도<br>
-          생명 길 되나니 은혜로다<br>
-          천사 날 부르니 늘 찬송하면서<br>
-          주께 더 나가기 원합니다
-        </div>
-      </div>
-      <div class="hymn-verse">
-        <span class="verse-num">4.</span>
-        <div class="verse-lines">
-          야곱이 잠 깨어 일어난 후<br>
-          돌 단을 쌓은 것 본 받아서<br>
-          숨 질 때 되도록 늘 찬송하면서<br>
-          주께 더 나가기 원합니다 아멘
-        </div>
-      </div>
-    </div>
-    <div class="refrain">
-      <strong>&lt;후렴&gt;</strong> 세월 지나가도록 의지할 것 뿐일세 아무 일을 만나도 예수 의지합니다.
-    </div>
-  </article>
+    </article>
 
-  <!-- 9. 폐회 -->
-  <article class="section" id="s9">
-    <div class="section-title">
-      <span class="icon">&#x271E;</span> 폐회
-      <span style="flex:1"></span>
-      <span class="who">다 같이</span>
-    </div>
-    <div class="section-meta">
-      <span class="ref">주기도문</span>
-    </div>
-    <p>
-      하늘에 계신 우리 아버지여, 이름이 거룩히 여김을 받으시오며
-      나라가 임하시오며 뜻이 하늘에서 이루어진 것 같이 땅에서도 이루어지이다.
-      오늘 우리에게 일용할 양식을 주시옵고
-      우리가 우리에게 죄 지은 자를 사하여 준 것 같이 우리 죄를 사하여 주시옵고
-      우리를 시험에 들게 하지 마시옵고 다만 악에서 구하시옵소서.
-      나라와 권세와 영광이 아버지께 영원히 있사옵나이다.
-      <span class="amen">아멘.</span>
-    </p>
-  </article>
+    <!-- 9. 폐회 -->
+    <article class="section" id="chk-9">
+      <div class="section-title">
+        <span class="icon">&#x271E;</span> 폐회
+        <span style="flex:1"></span>
+        <span class="who">다 같이</span>
+      </div>
+      <div class="section-meta">
+        <span class="ref">주기도문</span>
+      </div>
+      <p>
+        하늘에 계신 우리 아버지여, 이름이 거룩히 여김을 받으시오며
+        나라가 임하시오며 뜻이 하늘에서 이루어진 것 같이 땅에서도 이루어지이다.
+        오늘 우리에게 일용할 양식을 주시옵고
+        우리가 우리에게 죄 지은 자를 사하여 준 것 같이 우리 죄를 사하여 주시옵고
+        우리를 시험에 들게 하지 마시옵고 다만 악에서 구하시옵소서.
+        나라와 권세와 영광이 아버지께 영원히 있사옵나이다.
+        <span class="amen">아멘.</span>
+      </p>
+    </article>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="cross">&#x271E;</div>
-    <p>하나님의 은혜와 평강이 온 가정에 함께 하시기를 기도합니다.</p>
-  </footer>
+    <footer class="footer">
+      <div class="cross">&#x271E;</div>
+      <p>하나님의 은혜와 평강이 온 가정에 함께 하시기를 기도합니다.</p>
+    </footer>
+
+  </div>
 
 </div>
 
@@ -613,9 +995,24 @@
   const year = now.getFullYear();
   const prevYear = year - 1;
 
-  document.getElementById('yearBadge').textContent = year + '년 설날';
+  document.getElementById('yearHome').textContent = year + '년';
+  document.querySelectorAll('.dynamic-seol-year').forEach(el => el.textContent = year + '년 설날');
+  document.querySelectorAll('.dynamic-chuseok-year').forEach(el => el.textContent = year + '년 한가위');
   document.querySelectorAll('.dynamic-year').forEach(el => el.textContent = year + '년');
   document.querySelectorAll('.dynamic-prev-year').forEach(el => el.textContent = prevYear + '년');
+
+  // ── 서비스 전환 ──
+  function showService(svc) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + svc).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goHome() {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-home').classList.add('active');
+    window.scrollTo(0, 0);
+  }
 
   // ── 글자 크기 조절 ──
   let fontLevel = 0;
